@@ -13,7 +13,7 @@ describe('Validação nome', () => {
   it('Verifica se o nome não é muito curto, mínimo 2 caracteres', () => {
     expect(validacaoNome('o')).toBeFalsy();
   });
-  it('Verifica se o nome não é muito longo, mínimo 2 caracteres', () => {
+  it('Verifica se o nome não é muito longo, máximo 100 caracteres', () => {
     expect(
       validacaoNome(
         'Maria da Silva Santos Oliveira Rodrigues de Souza Pereira Almeida Costa Ferreira Gomes Ribeiro Lima Abreu Pereira Santos Oliveira Rodrigues de Souza Pereira Almeida Costa Ferreira Gomes Ribeiro Lima Abreu Pereira Santos Oliveira Rodrigues de Souza Pereira Almeida Costa Ferreira Gomes Ribeiro Lima Abreu Pereira Santos Oliveira Rodrigues de Souza Pereira Almeida Costa Ferreira Gomes Ribeiro Lima Abreu Pereira Santos Oliveira Rodrigues de Souza Pereira Almeida Costa Ferreira Gomes Ribeiro Lima Abreu Pereira',
