@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { ClientService } from './client.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
@@ -20,10 +29,24 @@ export class ClientController {
 
   @Get()
   @ApiOperation({
-    summary: 'Tráz todos os clientes do banco de dados',
+    summary: 'Tráz todos os clientes do banco de dados com paginação',
   })
-  async findAll() {
-    return await this.clientService.findAll();
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    description: 'Número da página, começando por 1 e default 1',
+    example: 1,
+    required: false,
+  })
+  @ApiQuery({
+    name: 'pageSize',
+    type: Number,
+    description: 'Tamanho da página, default 10',
+    example: 10,
+    required: false,
+  })
+  async findAll(@Query('page') page = 1, @Query('pageSize') pageSize = 10) {
+    return await this.clientService.findAll(page, pageSize);
   }
 
   @Get('filtrar')
@@ -35,45 +58,75 @@ export class ClientController {
     type: String,
     description: 'Nome dos clientes',
     example: 'Valdecir',
+    required: false,
   })
   @ApiQuery({
     name: 'datanasciemnto',
     type: Date,
     description: 'Data de nascimento',
     example: '1990-01-01',
+    required: false,
   })
   @ApiQuery({
     name: 'cpf',
     type: String,
-    description: 'CPF do cliente',
+    description:
+      'CPF do cliente, SE A QUERY CPF FOR ENVIADA O END POINT RETORNARÁ APENAS UM CLIENTE DO CONTRÁRIO RETORNARÁ UM ARRAY',
     example: '49317131069',
+    required: false,
   })
   @ApiQuery({
     name: 'estadocivil',
     type: String,
-    description: 'Estado civil dos clientes, que podem ser: casado, solteiro, divorciado, viuvo',
+    description:
+      'Estado civil dos clientes, que podem ser: casado, solteiro, divorciado, viuvo',
     example: 'solteiro',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    description: 'Número da página, começando por 1 e default 1',
+    example: 1,
+    required: false,
+  })
+  @ApiQuery({
+    name: 'pageSize',
+    type: Number,
+    description: 'Tamanho da página, default 10',
+    example: 10,
+    required: false,
   })
   async findMany(
     @Query('nome') nome: string,
     @Query('datanasciemnto') dataNasciemnto: string,
     @Query('cpf') cpf: string,
     @Query('estadocivil') estadoCivil: EstadoCivil,
+    @Query('page') page = 1,
+    @Query('pageSize') pageSize = 10,
   ) {
-    return await this.clientService.findMany(
-      nome,
-      new Date(dataNasciemnto),
-      cpf,
-      estadoCivil
-    );
+    if (cpf && cpf.length === 11) {
+      return await this.clientService.findByCpf(cpf);
+    } else {
+      return await this.clientService.findMany(
+        nome,
+        dataNasciemnto,
+        estadoCivil,
+        page,
+        pageSize,
+      );
+    }
   }
 
   @Patch(':id')
   @ApiOperation({
     summary: 'Atualiza os dados de um cliente especificado pelo seu id',
   })
-  async update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-    return await this.clientService.update(+id, updateClientDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateClientDto: UpdateClientDto,
+  ) {
+    return await this.clientService.update(id, updateClientDto);
   }
 
   @Delete(':id')
@@ -81,6 +134,6 @@ export class ClientController {
     summary: 'Exclui os dados de um cliente especificado pelo seu id',
   })
   async remove(@Param('id') id: string) {
-    return await this.clientService.remove(+id);
+    return await this.clientService.remove(id);
   }
 }
