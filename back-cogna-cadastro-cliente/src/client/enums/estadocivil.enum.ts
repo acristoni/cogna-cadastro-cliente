@@ -1,6 +1,6 @@
 export enum EstadoCivil {
-    CASADO = 'casado',
-    SOLTEIRO = 'solteiro',
-    DIVORCIADO = 'divorciado',
-    VIUVO = 'viuvo'
+  CASADO = 'casado',
+  SOLTEIRO = 'solteiro',
+  DIVORCIADO = 'divorciado',
+  VIUVO = 'viuvo',
 }

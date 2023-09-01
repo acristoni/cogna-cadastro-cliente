@@ -23,7 +23,7 @@ import { Cliente } from './client/entities/client.entity';
       entities: [Cliente],
     }),
     TypeOrmModule.forFeature([Cliente]),
-    ClientModule
+    ClientModule,
   ],
   controllers: [AppController],
   providers: [AppService],
