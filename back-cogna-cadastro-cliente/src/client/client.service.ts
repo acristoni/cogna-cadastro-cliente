@@ -102,14 +102,18 @@ export class ClientService {
   async update(id: string, updateClientDto: UpdateClientDto) {
     return await this.clientRepository
       .update(id, updateClientDto)
+      .then(() => `Cliente id ${id} atualizado com sucesso!`)
       .catch((error) => {
         throw new InternalServerErrorException(error);
       });
   }
 
   async remove(id: string) {
-    return await this.clientRepository.delete(id).catch((error) => {
-      throw new InternalServerErrorException(error);
-    });
+    return await this.clientRepository
+      .delete(id)
+      .then(() => `Cliente id ${id} deletado com sucesso!`)
+      .catch((error) => {
+        throw new InternalServerErrorException(error);
+      });
   }
 }
