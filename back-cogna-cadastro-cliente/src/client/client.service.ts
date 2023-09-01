@@ -4,6 +4,7 @@ import { UpdateClientDto } from './dto/update-client.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cliente } from './entities/client.entity';
 import { Repository } from 'typeorm';
+import { EstadoCivil } from './enums/estadocivil.enum';
 
 @Injectable()
 export class ClientService {
@@ -20,12 +21,22 @@ export class ClientService {
     }
   }
 
-  findAll() {
-    return `This action returns all client`;
+  async findAll() {
+    try {
+      const todosClientes = await this.clientRepository.find();
+      return todosClientes;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} client`;
+  async findMany(      
+    nome: string,
+    dataNasciemnto: Date,
+    cpf: string,
+    estadoCivil: EstadoCivil
+  ) {
+    return `${nome}, ${dataNasciemnto}, ${cpf}, ${estadoCivil}`;
   }
 
   update(id: number, updateClientDto: UpdateClientDto) {
