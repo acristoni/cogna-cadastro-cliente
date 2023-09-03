@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
-import { ClientModule } from './../src/client/client.module';
-import mockClienteDto from './../src/utils/mocks/clientDto.mock';
+import { AppModule } from '../src/app.module';
+import { ClientModule } from '../src/client/client.module';
+import mockClienteDto from '../src/utils/mocks/clientDto.mock';
 
 let app: INestApplication;
 let idClienteTeste: string;
