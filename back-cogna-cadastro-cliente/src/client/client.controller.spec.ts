@@ -45,8 +45,8 @@ describe('ClientController', () => {
 
   describe('findAll', () => {
     it('Deve retornar a lista de todos os clientes paginada', async () => {
-      const page = 1;
-      const pageSize = 10;
+      const page = 2;
+      const pageSize = 5;
       jest.spyOn(service, 'findAll').mockResolvedValue(mockReturnFind);
 
       const result = await controller.findAll(page, pageSize);
@@ -58,8 +58,8 @@ describe('ClientController', () => {
     const nome = 'Valdecir';
     const dataNascimento = '1990-01-01';
     const estadoCivil = EstadoCivil.SOLTEIRO;
-    const page = 1;
-    const pageSize = 10;
+    const page = 2;
+    const pageSize = 5;
     it('Deve filtrar e paginar os clientes por nome, estado civil e data de nascimento, SE NÃO FOR ENVIADO O CPF', async () => {
       jest.spyOn(service, 'findMany').mockResolvedValue(mockReturnFind);
 

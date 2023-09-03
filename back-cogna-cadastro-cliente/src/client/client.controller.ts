@@ -45,7 +45,7 @@ export class ClientController {
     example: 10,
     required: false,
   })
-  async findAll(@Query('page') page = 1, @Query('pageSize') pageSize = 10) {
+  async findAll(@Query('page') page, @Query('pageSize') pageSize) {
     return await this.clientService.findAll(page, pageSize);
   }
 
@@ -102,8 +102,8 @@ export class ClientController {
     @Query('datanasciemnto') dataNasciemnto: string,
     @Query('cpf') cpf: string,
     @Query('estadocivil') estadoCivil: EstadoCivil,
-    @Query('page') page = 1,
-    @Query('pageSize') pageSize = 10,
+    @Query('page') page,
+    @Query('pageSize') pageSize,
   ) {
     if (cpf && cpf.length === 11) {
       return await this.clientService.findByCpf(cpf);
