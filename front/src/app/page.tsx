@@ -1,18 +1,26 @@
 'use client'
 
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Unstable_Grid2';
-import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import MediaCard from '@/components/MediaCard';
 import ResizePanel from "react-resize-panel";
+import { Client } from 'interfaces/client.interface';
+import DataGridClients from '@/components/DataGrid';
 
 export default function HomePage() {
+  const [clientList, setClientList] = useState<Client[]>()
+  console.log("🚀 ~ file: page.tsx:11 ~ HomePage ~ clientList:", clientList)
+  
+  useEffect(()=>{
+    async function getClients() {
+      const res = await fetch('http://localhost:3000/api')   
+      const resJson = await res.json();
+      setClientList( JSON.parse(resJson.data).clients )
+      return
+    }
+    getClients()
+  },[])
+
   return (
     <Box
       sx={{
@@ -20,24 +28,6 @@ export default function HomePage() {
         justifyContent: 'end',
       }}
     >
-      <ResizePanel 
-        direction="e" 
-        style={{ flexGrow: 1 }}
-      >
-        <Box 
-          sx = {{ 
-            minWidth: '200px',
-            width:'100%',
-            boxSizing: 'border-box',
-            textAlign: 'center',
-            flexGrow: 1 
-          }}
-        >
-          <Typography variant="overline" sx={{ fontWeight: 500 }}>
-            filtros
-          </Typography>           
-        </Box>
-      </ResizePanel>
       <Box 
         sx={{
           borderRight: '1px solid #dcdcdc', 
@@ -46,9 +36,13 @@ export default function HomePage() {
           height: '809px'
         }}
       >
-        <Typography variant="overline" sx={{ fontWeight: 500 }}>
-          COnteúdo
-        </Typography> 
+        {
+          clientList ?
+          <DataGridClients rows={clientList}/> :
+          <Typography>
+            Carregando informações...
+          </Typography>
+        }
       </Box>
       <ResizePanel 
         direction="w" 
