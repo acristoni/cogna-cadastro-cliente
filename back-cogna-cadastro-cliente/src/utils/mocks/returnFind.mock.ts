@@ -1,4 +1,12 @@
-const mockReturnFind = {
+import { EstadoCivil } from '../../client/enums/estadocivil.enum';
+import { Cliente } from '../../client/entities/client.entity';
+
+const mockReturnFind: {
+  clients: Cliente[];
+  total: number;
+  currentPage: number;
+  pageSize: number;
+} = {
   clients: [
     {
       id: '30ebcd8e-2d1c-4946-9bcb-b5156cad08ec',
@@ -7,7 +15,7 @@ const mockReturnFind = {
       nome: 'Valdecir',
       cpf: '49317131061',
       dataNascimento: new Date('1990-01-01'),
-      estadoCivil: 'casado',
+      estadoCivil: EstadoCivil.CASADO,
     },
     {
       id: 'f9876f97-5a09-4167-ab65-726e79e8f389',
@@ -16,7 +24,7 @@ const mockReturnFind = {
       nome: 'Valdecir',
       cpf: '49317131062',
       dataNascimento: new Date('1990-01-01'),
-      estadoCivil: 'casado',
+      estadoCivil: EstadoCivil.CASADO,
     },
   ],
   total: 2,
