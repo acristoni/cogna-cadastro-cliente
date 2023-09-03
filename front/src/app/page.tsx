@@ -15,7 +15,7 @@ export default function HomePage() {
     async function getClients() {
       const res = await fetch('http://localhost:3000/api')   
       const resJson = await res.json();
-      setClientList( JSON.parse(resJson.data).clients )
+      setClientList( JSON.parse(resJson.data) )
       return
     }
     getClients()

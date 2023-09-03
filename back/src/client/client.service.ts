@@ -63,26 +63,33 @@ export class ClientService {
   }
 
   async findAll(
-    page = 1,
-    pageSize = 10,
-  ): Promise<{
-    clients: Cliente[];
-    total: number;
-    currentPage: number;
-    pageSize: number;
-  }> {
+    page?: number,
+    pageSize?: number,
+  ): Promise<
+    | {
+        clients: Cliente[];
+        total: number;
+        currentPage: number;
+        pageSize: number;
+      }
+    | Cliente[]
+  > {
     try {
-      const skip = (page - 1) * pageSize;
-      const [clients, total] = await this.clientRepository.findAndCount({
-        skip,
-        take: pageSize,
-      });
-      return {
-        clients,
-        total,
-        currentPage: page,
-        pageSize,
-      };
+      if (page && pageSize) {
+        const skip = (page - 1) * pageSize;
+        const [clients, total] = await this.clientRepository.findAndCount({
+          skip,
+          take: pageSize,
+        });
+        return {
+          clients,
+          total,
+          currentPage: page,
+          pageSize,
+        };
+      } else {
+        return await this.clientRepository.find();
+      }
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

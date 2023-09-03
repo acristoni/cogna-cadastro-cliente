@@ -20,6 +20,7 @@ import mockListClients from '../utils/mocks/listClients.mock';
 import mockReturnFind from '../utils/mocks/returnFind.mock';
 import mockClient from '../utils/mocks/client.mock';
 import mockClientDto from '../utils/mocks/clientDto.mock';
+import listAllClients from '../utils/mocks/listAllClients.mock';
 
 describe('ClientService', () => {
   let clientService: ClientService;
@@ -132,11 +133,16 @@ describe('ClientService', () => {
       jest
         .spyOn(clientRepository, 'findAndCount')
         .mockResolvedValue(mockListClients);
-      const returnFindAll = await clientService.findAll();
+      const returnFindAll = await clientService.findAll(1, 10);
       expect(returnFindAll).toStrictEqual(mockReturnFind);
     });
+    it('Deve retornar todos os clientes, se não forem passados o tamanho da página e a página', async () => {
+      jest.spyOn(clientRepository, 'find').mockResolvedValue(listAllClients);
+      const returnFindAll = await clientService.findAll();
+      expect(returnFindAll).toStrictEqual(listAllClients);
+    });
     it('Deve tratar um erro do tipo InternalServerErrorException', async () => {
-      jest.spyOn(clientRepository, 'findAndCount').mockResolvedValue(null);
+      jest.spyOn(clientRepository, 'find').mockRejectedValue(null);
       await expect(clientService.findAll()).rejects.toThrow(
         InternalServerErrorException,
       );

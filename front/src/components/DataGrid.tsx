@@ -56,7 +56,6 @@ export default function DataGridClients({ rows }: Props) {
 
   useEffect(()=>{
     if (rows) {
-      console.log("🚀 ~ file: DataGrid.tsx:58 ~ useEffect ~ rows:", rows)
       const arrayRowsFormated = rows.map((clientInfo: Client) => {
         return {
           id: clientInfo.id,
@@ -73,7 +72,7 @@ export default function DataGridClients({ rows }: Props) {
   },[rows])
 
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
+    <Box sx={{ height: 650, width: '100%' }}>
       <DataGrid
         rows={rowsFormated}
         columns={columns}
