@@ -15,7 +15,7 @@ import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { EstadoCivil } from './enums/estadocivil.enum';
 
 @ApiTags('Cliente')
-@Controller('client')
+@Controller('cliente')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 

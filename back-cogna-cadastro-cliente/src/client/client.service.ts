@@ -51,8 +51,12 @@ export class ClientService {
     }
 
     try {
-      await this.clientRepository.insert(createClientDto);
-      return 'Cliente criado com sucesso';
+      const cliente = await this.clientRepository.insert(createClientDto);
+
+      return {
+        mensagem: 'Cliente criado com sucesso',
+        id: cliente.identifiers[0].id,
+      };
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

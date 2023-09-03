@@ -64,10 +64,14 @@ describe('ClientService', () => {
       jest.spyOn(validacaoDataNascimento, 'validar').mockReturnValue(true);
       jest.spyOn(validacaoEstadoCivil, 'validar').mockReturnValue(true);
       jest.spyOn(validacaoNome, 'validar').mockReturnValue(true);
-      jest.spyOn(clientRepository, 'insert').mockResolvedValue(null);
+      jest.spyOn(clientRepository, 'insert').mockResolvedValue({
+        identifiers: [{ id: '1' }],
+        generatedMaps: [],
+        raw: [],
+      });
       const returnCreate = await clientService.create(mockClientDto);
       const returnMessage = 'Cliente criado com sucesso';
-      expect(returnCreate).toBe(returnMessage);
+      expect(returnCreate.mensagem).toBe(returnMessage);
     });
 
     it('Deve tratar um erro do tipo InternalServerErrorException', async () => {
