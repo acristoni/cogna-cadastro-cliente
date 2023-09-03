@@ -9,7 +9,6 @@ import DataGridClients from '@/components/DataGrid';
 
 export default function HomePage() {
   const [clientList, setClientList] = useState<Client[]>()
-  console.log("🚀 ~ file: page.tsx:11 ~ HomePage ~ clientList:", clientList)
   
   useEffect(()=>{
     async function getClients() {
@@ -33,7 +32,7 @@ export default function HomePage() {
           borderRight: '1px solid #dcdcdc', 
           borderLeft: '1px solid #dcdcdc', 
           flexGrow: 2, 
-          height: '809px'
+          height: '690px'
         }}
       >
         {

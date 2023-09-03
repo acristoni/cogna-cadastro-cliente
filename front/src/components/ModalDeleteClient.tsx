@@ -36,10 +36,8 @@ export default function ModalDeleteClient({ isDeleteModalOpen, setIsDeleteModalO
     },[isDeleting])
 
     useEffect(()=>{
-        if (isDeleteModalOpen) {
-            setIsDeleting(false)
-            setDeleteConcluido(false)
-        }
+        setIsDeleting(false)
+        setDeleteConcluido(false)        
     },[isDeleteModalOpen])
 
     return (
