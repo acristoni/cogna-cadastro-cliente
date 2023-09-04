@@ -3,6 +3,7 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { CircularProgress } from '@mui/material';
+import deleteClient from 'service/deleteClient';
 
 type Props = {
     setIsDeleteModalOpen: (value: boolean) => void;
@@ -18,18 +19,11 @@ export default function ModalDeleteClient({ isDeleteModalOpen, setIsDeleteModalO
 
     useEffect(()=>{
         if (isDeleting)  {
-            const deleteClient = async () => {
-                const res = await fetch(`${process.env.URL_FRONT}/api/${clientToDelete}`, {
-                    method: "DELETE",
-                })
-                if (res.status === 200 && clientToDelete) {
-                    setDelectedClient(clientToDelete)
-                    setMensagemConcluido('Usuário excluído com sucesso!')
-                } else {
-                    setMensagemConcluido('Tivemos um problema interno, tente novamente mais tarde ou entre em contato conosco!')
-                }
-            }
-            deleteClient()
+            deleteClient(
+                clientToDelete,
+                setDelectedClient,
+                setMensagemConcluido 
+            )
             setIsDeleting(false)
             setDeleteConcluido(true)
         }

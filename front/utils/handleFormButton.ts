@@ -1,6 +1,7 @@
 import { ClientDto } from "interfaces/clientDto.interface";
-import removerCaracteresCpf from "./removerCaracteresCpf";
 import { EditOrCreate } from "enums/editOrCreate.enum";
+import { editClient as editClientService } from "service/editClient.service";
+import { createClient as createClientService } from "service/createClient.service";
 
 const handleFormButton = async (
     setIsLoading: (value: boolean) => void,
@@ -12,34 +13,17 @@ const handleFormButton = async (
 ) => {
     setIsLoading(true);
 
-    const headersList = {
-        "Content-Type": "application/json"
-    }
-    const bodyContent = JSON.stringify({
-        ...formData,
-        cpf: removerCaracteresCpf(formData.cpf)
-    });
-
     if (editOrCreate === EditOrCreate.EDIT && editClient) {
-        const response = await fetch(`${process.env.URL_FRONT}/api/${editClient.idClient}`, { 
-            method: "PATCH",
-            body: bodyContent,
-            headers: headersList
-        });
-        
-        const data = await response.text();
-        const responseObj = JSON.parse(data)
-        setMensagemUsuario(responseObj.mensagemUsuario);             
+        editClientService(
+            formData,
+            editClient,
+            setMensagemUsuario,
+        )          
     } else {            
-        const response = await fetch(`${process.env.URL_FRONT}/api`, { 
-            method: "POST",
-            body: bodyContent,
-            headers: headersList
-        });
-        
-        const data = await response.text();
-        const responseObj = JSON.parse(data)
-        setMensagemUsuario(responseObj.mensagemUsuario);
+        createClientService(
+            formData,
+            setMensagemUsuario,
+        )
     }
     setIsModalOpen(true);
     setIsLoading(false);

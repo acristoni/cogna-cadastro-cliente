@@ -9,6 +9,7 @@ import DataGridClients from '@/components/DataGrid';
 import Button from '@mui/material/Button';
 import ClientForm from '@/components/ClientForm';
 import { ClientDto } from 'interfaces/clientDto.interface';
+import getClients from 'service/getClients';
 
 export default function HomePage() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -16,13 +17,7 @@ export default function HomePage() {
   const [editClient, setEditClient] = useState<{ clientDto: ClientDto, idClient: string }>();
   
   useEffect(()=>{
-    async function getClients() {
-      const res = await fetch(`${process.env.URL_FRONT}/api`)   
-      const resJson = await res.json();
-      setClientList( JSON.parse(resJson.data) )
-      return
-    }
-    getClients()
+    getClients(setClientList)
   },[]);
 
   useEffect(()=>{
