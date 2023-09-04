@@ -65,6 +65,7 @@ describe('ClientService', () => {
       jest.spyOn(validacaoDataNascimento, 'validar').mockReturnValue(true);
       jest.spyOn(validacaoEstadoCivil, 'validar').mockReturnValue(true);
       jest.spyOn(validacaoNome, 'validar').mockReturnValue(true);
+      jest.spyOn(clientRepository, 'findOne').mockResolvedValue(null);
       jest.spyOn(clientRepository, 'insert').mockResolvedValue({
         identifiers: [{ id: '1' }],
         generatedMaps: [],
@@ -72,7 +73,7 @@ describe('ClientService', () => {
       });
       const returnCreate = await clientService.create(mockClientDto);
       const returnMessage = 'Cliente criado com sucesso';
-      expect(returnCreate.mensagem).toBe(returnMessage);
+      expect(returnCreate.message).toBe(returnMessage);
     });
 
     it('Deve tratar um erro do tipo InternalServerErrorException', async () => {
@@ -80,6 +81,7 @@ describe('ClientService', () => {
       jest.spyOn(validacaoDataNascimento, 'validar').mockReturnValue(true);
       jest.spyOn(validacaoEstadoCivil, 'validar').mockReturnValue(true);
       jest.spyOn(validacaoNome, 'validar').mockReturnValue(true);
+      jest.spyOn(clientRepository, 'findOne').mockResolvedValue(null);
       jest.spyOn(clientRepository, 'insert').mockRejectedValue(null);
       await expect(clientService.create(mockClientDto)).rejects.toThrow(
         InternalServerErrorException,
@@ -124,6 +126,17 @@ describe('ClientService', () => {
 
       await expect(clientService.create(mockClientDto)).rejects.toThrow(
         new HttpException('Nome inválido', HttpStatus.BAD_REQUEST),
+      );
+    });
+    it('Não deve criar um cliente com cpf já cadastrado no sistema', async () => {
+      jest.spyOn(validacaoCpf, 'validar').mockReturnValue(true);
+      jest.spyOn(validacaoDataNascimento, 'validar').mockReturnValue(true);
+      jest.spyOn(validacaoEstadoCivil, 'validar').mockReturnValue(true);
+      jest.spyOn(validacaoNome, 'validar').mockReturnValue(true);
+      jest.spyOn(clientRepository, 'findOne').mockResolvedValue(mockClient);
+
+      await expect(clientService.create(mockClientDto)).rejects.toThrow(
+        new HttpException('CPF já cadastrado', HttpStatus.BAD_REQUEST),
       );
     });
   });
@@ -238,6 +251,7 @@ describe('ClientService', () => {
       jest.spyOn(validacaoDataNascimento, 'validar').mockReturnValue(true);
       jest.spyOn(validacaoEstadoCivil, 'validar').mockReturnValue(true);
       jest.spyOn(validacaoNome, 'validar').mockReturnValue(true);
+      jest.spyOn(clientRepository, 'findOne').mockResolvedValue(mockClient);
       jest.spyOn(clientRepository, 'update').mockResolvedValue(null);
       const returnCreate = await clientService.update('123', mockClientDto);
       const returnMessage = 'Cliente id 123 atualizado com sucesso!';
@@ -249,6 +263,7 @@ describe('ClientService', () => {
       jest.spyOn(validacaoDataNascimento, 'validar').mockReturnValue(true);
       jest.spyOn(validacaoEstadoCivil, 'validar').mockReturnValue(true);
       jest.spyOn(validacaoNome, 'validar').mockReturnValue(true);
+      jest.spyOn(clientRepository, 'findOne').mockResolvedValue(mockClient);
       jest.spyOn(clientRepository, 'update').mockRejectedValue(null);
       await expect(clientService.update('123', mockClientDto)).rejects.toThrow(
         InternalServerErrorException,
@@ -295,17 +310,39 @@ describe('ClientService', () => {
         new HttpException('Nome inválido', HttpStatus.BAD_REQUEST),
       );
     });
+
+    it('Deve tratar um erro do tipo NotFound', async () => {
+      jest.spyOn(validacaoCpf, 'validar').mockReturnValue(true);
+      jest.spyOn(validacaoDataNascimento, 'validar').mockReturnValue(true);
+      jest.spyOn(validacaoEstadoCivil, 'validar').mockReturnValue(true);
+      jest.spyOn(validacaoNome, 'validar').mockReturnValue(true);
+      jest.spyOn(clientRepository, 'findOne').mockResolvedValue(null);
+
+      await expect(clientService.update('123', mockClientDto)).rejects.toThrow(
+        new HttpException('Cliente não encontrado', HttpStatus.NOT_FOUND),
+      );
+    });
   });
 
   describe('remove', () => {
     it('Deve apagar um cliente pelo id', async () => {
+      jest.spyOn(clientRepository, 'findOne').mockResolvedValue(mockClient);
       jest.spyOn(clientRepository, 'delete').mockResolvedValue(null);
       const returnCreate = await clientService.remove('123');
       const returnMessage = 'Cliente id 123 deletado com sucesso!';
       expect(returnCreate).toBe(returnMessage);
     });
 
+    it('Deve tratar um erro do tipo NotFound', async () => {
+      jest.spyOn(clientRepository, 'findOne').mockResolvedValue(null);
+      jest.spyOn(clientRepository, 'delete').mockResolvedValue(null);
+      await expect(clientService.remove('123')).rejects.toThrow(
+        new HttpException('Cliente não encontrado', HttpStatus.NOT_FOUND),
+      );
+    });
+
     it('Deve tratar um erro do tipo InternalServerErrorException', async () => {
+      jest.spyOn(clientRepository, 'findOne').mockResolvedValue(mockClient);
       jest.spyOn(clientRepository, 'delete').mockRejectedValue(null);
       await expect(clientService.remove('123')).rejects.toThrow(
         InternalServerErrorException,

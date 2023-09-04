@@ -8,13 +8,34 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
         const response = await fetch(`http://localhost:3003/cliente/${idClient}`, { 
             method: "DELETE",
         });
-        console.log();
+
         if (response.status === 200) {
             const mensagemUsuario = await response.text();
             return NextResponse.json({ mensagemUsuario }, { status: 200 });
         } else {
             return NextResponse.json({ mensagemUsuario: 'Erro interno da aplicação' }, { status: 500 });    
         }
+    } catch(err) {
+        return NextResponse.json({ mensagemUsuario: 'Erro interno da aplicação' }, { status: 500 });
+    }
+}
+
+export async function PATCH(request: NextRequest, { params }: { params: { id: string } } ) {
+    try {
+        const res = await request.json()
+        const idClient = params.id;
+    
+        const response = await fetch(`http://localhost:3003/cliente/${idClient}`, { 
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(res)
+        });
+
+        const responseString = await response.text();
+        const mensagemUsuario = JSON.parse(responseString).message
+        return NextResponse.json({ mensagemUsuario }, { status: response.status });
     } catch(err) {
         return NextResponse.json({ mensagemUsuario: 'Erro interno da aplicação' }, { status: 500 });
     }

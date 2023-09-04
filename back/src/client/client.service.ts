@@ -50,11 +50,19 @@ export class ClientService {
       throw new HttpException('Nome inválido', HttpStatus.BAD_REQUEST);
     }
 
+    const cpfJaCadastrado = await this.clientRepository.findOne({
+      where: { cpf: createClientDto.cpf },
+    });
+
+    if (cpfJaCadastrado) {
+      throw new HttpException('CPF já cadastrado', HttpStatus.BAD_REQUEST);
+    }
+
     try {
       const cliente = await this.clientRepository.insert(createClientDto);
 
       return {
-        mensagem: 'Cliente criado com sucesso',
+        message: 'Cliente criado com sucesso',
         id: cliente.identifiers[0].id,
       };
     } catch (error) {
@@ -176,6 +184,14 @@ export class ClientService {
       throw new HttpException('Nome inválido', HttpStatus.BAD_REQUEST);
     }
 
+    const cliente = await this.clientRepository.findOne({
+      where: { id: id },
+    });
+
+    if (!cliente) {
+      throw new HttpException('Cliente não encontrado', HttpStatus.NOT_FOUND);
+    }
+
     return await this.clientRepository
       .update(id, updateClientDto)
       .then(() => `Cliente id ${id} atualizado com sucesso!`)
@@ -185,6 +201,14 @@ export class ClientService {
   }
 
   async remove(id: string) {
+    const cliente = await this.clientRepository.findOne({
+      where: { id: id },
+    });
+
+    if (!cliente) {
+      throw new HttpException('Cliente não encontrado', HttpStatus.NOT_FOUND);
+    }
+
     return await this.clientRepository
       .delete(id)
       .then(() => `Cliente id ${id} deletado com sucesso!`)

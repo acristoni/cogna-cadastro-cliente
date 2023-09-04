@@ -10,12 +10,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit'; 
 import handleEditClick from 'utils/handleEditClick';
 import ModalDeleteClient from './ModalDeleteClient';
+import { ClientDto } from 'interfaces/clientDto.interface';
+import { EstadoCivil } from 'enums/estadocivil.enum';
 
 type Props =  {
-  rows: Client[]
+  rows: Client[];
+  setEditClient: (editClient: { clientDto: ClientDto, idClient: string }) => void;
 }
 
-export default function DataGridClients({ rows }: Props) {
+export default function DataGridClients({ rows, setEditClient }: Props) {
   const [rowsFormated, setRowsFormated] = useState<ClientFormated[]>([])
   const [delectedClient, setDelectedClient] = useState<string>()
   const [clientToDelete, setClientToDelete] = useState<string>()
@@ -89,7 +92,39 @@ export default function DataGridClients({ rows }: Props) {
       filterable: false,
       renderCell: (params) => (
         <button
-          onClick={() => handleEditClick(params.row.id)}
+          onClick={() => {
+            let estadoCivilEdit: EstadoCivil;
+
+            switch (params.row.estadoCivil) {
+              case 'Solteiro':
+                estadoCivilEdit = EstadoCivil.SOLTEIRO;
+                break;
+              case 'Divorciado':
+                estadoCivilEdit = EstadoCivil.DIVORCIADO;
+                break;
+              case 'Viuvo':
+                estadoCivilEdit = EstadoCivil.VIUVO;
+                break;
+              case 'Casado':
+                estadoCivilEdit = EstadoCivil.CASADO;
+                break;
+              default:
+                estadoCivilEdit = EstadoCivil.SOLTEIRO;
+                break;
+            }
+            const clientDto: ClientDto = {
+              nome: params.row.nome,
+              dataNascimento: params.row.dataNascimento,
+              cpf: params.row.cpf,
+              estadoCivil: estadoCivilEdit,
+            }
+
+            setEditClient({
+              clientDto,
+              idClient: params.row.id
+            })
+          }
+        }
           style={{
             background: 'none',
             border: 'none',

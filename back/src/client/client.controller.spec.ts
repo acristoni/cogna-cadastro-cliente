@@ -36,7 +36,7 @@ describe('ClientController', () => {
   describe('create', () => {
     it('Deve criar um novo cliente', async () => {
       const expectedResult = {
-        mensagem: 'Cliente criado com sucesso',
+        message: 'Cliente criado com sucesso',
         id: '1',
       };
       jest.spyOn(service, 'create').mockResolvedValue(expectedResult);
