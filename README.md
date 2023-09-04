@@ -51,7 +51,7 @@ npm run test:cov
 ```
 Teste e2e:
 ```
-npm run test:2e2
+npm run test:e2e
 ```
 Na pasta **front/:**
 
