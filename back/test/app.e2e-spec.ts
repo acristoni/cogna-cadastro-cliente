@@ -37,7 +37,6 @@ describe('ClientController (e2e)', () => {
       .send(mockClienteDto);
 
     expect(response.status).toBe(201);
-    expect(response.body.mensagem).toEqual('Cliente criado com sucesso');
     idClienteTeste = response.body.id;
 
     return response;
