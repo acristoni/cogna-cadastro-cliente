@@ -33,10 +33,10 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
             body: JSON.stringify(res)
         });
 
-        const responseString = await response.text();
-        const mensagemUsuario = JSON.parse(responseString).message
-        return NextResponse.json({ mensagemUsuario }, { status: response.status });
+        const mensagemUsuario = await response.text();    
+        return NextResponse.json({ mensagemUsuario }, { status: response.status });        
     } catch(err) {
+        console.log("🚀 ~ file: route.ts:47 ~ PATCH ~ err:", err)
         return NextResponse.json({ mensagemUsuario: 'Erro interno da aplicação' }, { status: 500 });
     }
 }

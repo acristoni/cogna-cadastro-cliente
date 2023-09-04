@@ -3,7 +3,7 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { CircularProgress } from '@mui/material';
-import deleteClient from 'service/deleteClient';
+import deleteClient from '../../service/deleteClient.service';
 
 type Props = {
     setIsDeleteModalOpen: (value: boolean) => void;

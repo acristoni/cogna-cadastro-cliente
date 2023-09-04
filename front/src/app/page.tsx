@@ -9,7 +9,7 @@ import DataGridClients from '@/components/DataGrid';
 import Button from '@mui/material/Button';
 import ClientForm from '@/components/ClientForm';
 import { ClientDto } from 'interfaces/clientDto.interface';
-import getClients from 'service/getClients';
+import getClients from '../../service/getClients.service';
 
 export default function HomePage() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -30,7 +30,7 @@ export default function HomePage() {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'end',
+        justifyContent: 'end'
       }}
     >
       <Box 
