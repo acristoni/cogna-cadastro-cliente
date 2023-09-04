@@ -17,6 +17,10 @@ import removerCaracteresCpf from 'utils/removerCaracteresCpf';
 import { EditOrCreate } from 'enums/editOrCreate.enum';
 import formatDateToString from 'utils/formatDateToString';
 import ModalComplete from './ModalComplete';
+import { ptBR } from '@mui/x-date-pickers/locales';
+import 'dayjs/locale/pt-br';
+
+dayjs.locale('pt-br');
 
 type Props = {
     editClient: { clientDto: ClientDto, idClient: string } | undefined;
@@ -162,13 +166,17 @@ export default function ClientForm({ editClient, isDrawerOpen }: Props) {
                 onChange={handleChange}
                 sx={{ marginBottom: 3 }}
             />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider 
+                dateAdapter={AdapterDayjs}
+                localeText={ptBR.components.MuiLocalizationProvider.defaultProps.localeText}
+            >
                 <DemoContainer components={['DatePicker']}  sx={{ marginBottom: 3, width: '100%' }}>
                     <DatePicker 
                         label="Data de Nascimento" 
                         value={valueDate}
                         onChange={(newValue) => setValueDate(newValue)}
                         sx={{ width: '100%' }}
+                        format="DD-MM-YYYY"
                     />
                 </DemoContainer>
             </LocalizationProvider>
