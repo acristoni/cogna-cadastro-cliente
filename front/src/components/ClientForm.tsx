@@ -108,7 +108,7 @@ export default function ClientForm({ editClient, isDrawerOpen }: Props) {
             >
                 <DemoContainer components={['DatePicker']}  sx={{ marginBottom: 3, width: '100%' }}>
                     <DatePicker 
-                        label="Data de Nascimento" 
+                        label="Data de Nascimento"
                         value={valueDate}
                         onChange={(newValue) => setValueDate(newValue)}
                         sx={{ width: '100%' }}
@@ -142,6 +142,7 @@ export default function ClientForm({ editClient, isDrawerOpen }: Props) {
             </Select>
             </FormControl>
             <Button 
+                id="ButtonSave"
                 variant="contained" 
                 color="primary"
                 onClick={()=>handleFormButton(

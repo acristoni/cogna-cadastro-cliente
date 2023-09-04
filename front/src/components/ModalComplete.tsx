@@ -30,7 +30,14 @@ export default function ModalComplete({ setIsModalOpen, isModalOpen, mensagemUsu
                 }}
             >
                 <p style={{ marginBottom: '20px', marginTop: 0 }}>{mensagemUsuario}</p>
-                <Button onClick={() => setIsModalOpen(false)} variant="contained" color="primary">Fechar</Button>
+                <Button 
+                    onClick={() => setIsModalOpen(false)} 
+                    variant="contained" 
+                    color="primary"
+                    id="ButtonClose"
+                >
+                    Fechar
+                </Button>
             </Box>
         </Modal>
     )

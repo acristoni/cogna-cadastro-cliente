@@ -93,7 +93,14 @@ export default function ModalDeleteClient({ isDeleteModalOpen, setIsDeleteModalO
                     }}
                 >
                     <Button onClick={() => setIsDeleteModalOpen(false)} variant="contained" color="primary">Cancelar</Button>
-                    <Button onClick={() => setIsDeleting(true)} variant="contained" color="error">Confirmar</Button>
+                    <Button 
+                        onClick={() => setIsDeleting(true)} 
+                        variant="contained" 
+                        color="error"
+                        id="ButtonConfirmDelete"
+                    >
+                        Confirmar
+                    </Button>
                 </Box>
             </>
             }

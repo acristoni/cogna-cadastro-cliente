@@ -70,6 +70,7 @@ export default function DataGridClients({ rows, setEditClient }: Props) {
       filterable: false,
       renderCell: (params) => (
         <button
+          id="ButtonDelete"
           onClick={() => {            
             setClientToDelete(params.row.id)
             setIsDeleteModalOpen(true);
@@ -92,6 +93,7 @@ export default function DataGridClients({ rows, setEditClient }: Props) {
       filterable: false,
       renderCell: (params) => (
         <button
+        id="ButtonEditar"
           onClick={()=>handleEditButton(params, setEditClient)}
           style={{
             background: 'none',

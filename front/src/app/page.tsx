@@ -60,6 +60,7 @@ export default function HomePage() {
             bottom: '10px',
             right: '10px'
           }}
+          id="ButtonNewClient"
         >
           { !isDrawerOpen ? 'Novo Cliente' : 'Cancelar'}
         </Button>
