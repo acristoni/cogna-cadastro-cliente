@@ -1,5 +1,5 @@
 # Cogna-cadastro-cliente
-Mono-repo contendo o Front-end em ReactJs(NextJs) e back-end em NestJs para desafio de código para a vaga de desenvolvedor full-stack para a Cogna
+Mono-repo contendo o Front-end em ReactJs(NextJs) e back-end em NestJs projeto gestão de clinetes grupo Cogna
 
 # Rodar localmente
 1. Primeiro é necessário rodar o banco de dados, para isso preparei um docker-compose na pasta back
@@ -19,6 +19,7 @@ npm install
 ```
 
 3. Rodar back-end localmente
+**configurar .env, o repositório já tem um exemplo para ajudar**
 ```
 npm run start
 ```
@@ -36,6 +37,7 @@ npm install --force
 *A flag force é necessária, pois o MUI trabalhar com PeerDependencies (react e react-dom) diferente de alguns outros pacotes do projeto*
 
 5. Rodar front-end
+**configurar .env, o repositório já tem um exemplo para ajudar**
 ```
 npm run dev
 ```
