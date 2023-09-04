@@ -5,7 +5,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     try {
         const idClient = params.id;
     
-        const response = await fetch(`http://localhost:3003/cliente/${idClient}`, { 
+        const response = await fetch(`${process.env.URL_BACK}/cliente/${idClient}`, { 
             method: "DELETE",
         });
 
@@ -25,7 +25,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
         const res = await request.json()
         const idClient = params.id;
     
-        const response = await fetch(`http://localhost:3003/cliente/${idClient}`, { 
+        const response = await fetch(`${process.env.URL_BACK}/cliente/${idClient}`, { 
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

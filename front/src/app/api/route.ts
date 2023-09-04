@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
  
 export async function GET() {
-    let response = await fetch("http://localhost:3003/cliente", { 
+    let response = await fetch(`${process.env.URL_BACK}/cliente`, { 
         method: "GET",
         next: { revalidate: 0 }
     });
@@ -14,7 +14,7 @@ export async function GET() {
 export async function POST( request: NextRequest ) {
     const res = await request.json()
     try {    
-        const response = await fetch('http://localhost:3003/cliente/', { 
+        const response = await fetch(`${process.env.URL_BACK}/cliente/`, { 
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -17,7 +17,7 @@ export default function HomePage() {
   
   useEffect(()=>{
     async function getClients() {
-      const res = await fetch('http://localhost:3000/api')   
+      const res = await fetch(`${process.env.URL_FRONT}/api`)   
       const resJson = await res.json();
       setClientList( JSON.parse(resJson.data) )
       return

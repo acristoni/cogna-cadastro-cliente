@@ -93,7 +93,7 @@ export default function ClientForm({ editClient, isDrawerOpen }: Props) {
         });
 
         if (editOrCreate === EditOrCreate.EDIT && editClient) {
-            const response = await fetch(`http://localhost:3000/api/${editClient.idClient}`, { 
+            const response = await fetch(`${process.env.URL_FRONT}/api/${editClient.idClient}`, { 
                 method: "PATCH",
                 body: bodyContent,
                 headers: headersList
@@ -103,7 +103,7 @@ export default function ClientForm({ editClient, isDrawerOpen }: Props) {
             const responseObj = JSON.parse(data)
             setMensagemUsuario(responseObj.mensagemUsuario);             
         } else {            
-            const response = await fetch("http://localhost:3000/api", { 
+            const response = await fetch(`${process.env.URL_FRONT}/api`, { 
                 method: "POST",
                 body: bodyContent,
                 headers: headersList
@@ -212,7 +212,7 @@ export default function ClientForm({ editClient, isDrawerOpen }: Props) {
             >
                 {
                     !isLoading ?
-                    <Typography>{ editOrCreate === EditOrCreate.EDIT? 'Editar' : 'Criar' }</Typography> :
+                    <Typography>{ editOrCreate === EditOrCreate.EDIT? 'Editar' : 'Salvar' }</Typography> :
                     <CircularProgress color="inherit"/>
                 }
                 

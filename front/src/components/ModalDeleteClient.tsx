@@ -19,7 +19,7 @@ export default function ModalDeleteClient({ isDeleteModalOpen, setIsDeleteModalO
     useEffect(()=>{
         if (isDeleting)  {
             const deleteClient = async () => {
-                const res = await fetch(`http://localhost:3000/api/${clientToDelete}`, {
+                const res = await fetch(`${process.env.URL_FRONT}/api/${clientToDelete}`, {
                     method: "DELETE",
                 })
                 if (res.status === 200 && clientToDelete) {

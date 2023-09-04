@@ -8,7 +8,6 @@ import upperCaseFirstLetter from 'utils/upperCaseFirstLetter';
 import formatStringToDate from 'utils/formatStringToDate';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit'; 
-import handleEditClick from 'utils/handleEditClick';
 import ModalDeleteClient from './ModalDeleteClient';
 import { ClientDto } from 'interfaces/clientDto.interface';
 import { EstadoCivil } from 'enums/estadocivil.enum';

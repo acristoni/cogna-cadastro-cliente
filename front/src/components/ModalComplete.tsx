@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { CircularProgress } from '@mui/material';
 
 type Props = {
     setIsModalOpen: (value: boolean) => void;
