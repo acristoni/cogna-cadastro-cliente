@@ -13,12 +13,14 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { ClientDto } from 'interfaces/clientDto.interface';
 import { EstadoCivil } from 'enums/estadocivil.enum';
-import removerCaracteresCpf from 'utils/removerCaracteresCpf';
 import { EditOrCreate } from 'enums/editOrCreate.enum';
 import formatDateToString from 'utils/formatDateToString';
 import ModalComplete from './ModalComplete';
 import { ptBR } from '@mui/x-date-pickers/locales';
 import 'dayjs/locale/pt-br';
+import estadoCivilOptions from 'utils/estadoCivilOptions';
+import handleFormButton from 'utils/handleFormButton';
+import cpfMask from 'utils/cpfMask';
 
 dayjs.locale('pt-br');
 
@@ -39,83 +41,17 @@ export default function ClientForm({ editClient, isDrawerOpen }: Props) {
         cpf: '',
         estadoCivil: EstadoCivil.CASADO,
     });
-    const estadoCivilOptions = [
-        {
-            title: 'Casado',
-            value: EstadoCivil.CASADO
-        },
-        {
-            title: 'Solteiro',
-            value: EstadoCivil.SOLTEIRO
-        },
-        {
-            title: 'Divorciado',
-            value: EstadoCivil.DIVORCIADO
-        },
-        {
-            title: 'Viúvo',
-            value: EstadoCivil.VIUVO
-        },
-    ];
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
       
         if (name === 'cpf') {
-          const numericValue = value.replace(/\D/g, '');
-      
-          let formattedCPF = '';
-          for (let i = 0; i < numericValue.length; i++) {
-            formattedCPF += numericValue.charAt(i);
-            if (i === 2 || i === 5) {
-              formattedCPF += '.';
-            } else if (i === 8) {
-              formattedCPF += '-';
-            }
-          }
-      
+          const formattedCPF = cpfMask(value);      
           setFormData({ ...formData, [name]: formattedCPF || '' });
         } else {
           setFormData({ ...formData, [name]: value });
         }
     };
-      
-
-    const handleFormButton = async () => {
-        setIsLoading(true);
-
-        const headersList = {
-            "Content-Type": "application/json"
-        }
-        const bodyContent = JSON.stringify({
-            ...formData,
-            cpf: removerCaracteresCpf(formData.cpf)
-        });
-
-        if (editOrCreate === EditOrCreate.EDIT && editClient) {
-            const response = await fetch(`${process.env.URL_FRONT}/api/${editClient.idClient}`, { 
-                method: "PATCH",
-                body: bodyContent,
-                headers: headersList
-            });
-            
-            const data = await response.text();
-            const responseObj = JSON.parse(data)
-            setMensagemUsuario(responseObj.mensagemUsuario);             
-        } else {            
-            const response = await fetch(`${process.env.URL_FRONT}/api`, { 
-                method: "POST",
-                body: bodyContent,
-                headers: headersList
-            });
-            
-            const data = await response.text();
-            const responseObj = JSON.parse(data)
-            setMensagemUsuario(responseObj.mensagemUsuario);
-        }
-        setIsModalOpen(true);
-        setIsLoading(false);
-    }
 
     useEffect(()=>{
         if (valueDate) {
@@ -208,7 +144,14 @@ export default function ClientForm({ editClient, isDrawerOpen }: Props) {
             <Button 
                 variant="contained" 
                 color="primary"
-                onClick={()=>handleFormButton()}
+                onClick={()=>handleFormButton(
+                    setIsLoading,
+                    formData,
+                    editOrCreate,
+                    editClient,
+                    setMensagemUsuario,
+                    setIsModalOpen
+                )}
             >
                 {
                     !isLoading ?
